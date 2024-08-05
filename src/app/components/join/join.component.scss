@@ -2,6 +2,12 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  opacity: 0;
+}
+
+.container-loading {
+  transition: all .2s ease;
+  opacity: 100;
 }
 
 .code {

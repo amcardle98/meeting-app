@@ -8,6 +8,14 @@ import { Component } from '@angular/core';
 export class JoinComponent {
   eventCode!: string;
   errorMsg!: string;
+  loaded = false;
+
+  ngOnInit(): void {
+    //wait 2 seconds
+    setTimeout(() => {
+      this.loaded = true;
+    }, 200);
+  }
 
   joinEvent(): void {
     this.errorMsg = `No event found with code: ${this.eventCode}`;

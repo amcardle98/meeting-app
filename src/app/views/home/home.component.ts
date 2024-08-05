@@ -17,11 +17,13 @@ export class HomeComponent {
   }
 
   join() {
+    this.isHome = false;
     this.page = 'join';
     console.log('Join event!');
   }
 
   create() {
+    this.isHome = false;
     this.page = 'create';
     console.log('Create event!');
   }

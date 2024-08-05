@@ -8,9 +8,17 @@ import { MeetService } from 'src/app/services/meet.service';
 })
 export class CreateComponent {
   eventCode!: string;
+  loaded = false;
 
   constructor(private readonly meetService: MeetService) {
     this.eventCode = this.meetService.generateEventCody();
+  }
+
+  ngOnInit(): void {
+    //wait 2 seconds
+    setTimeout(() => {
+      this.loaded = true;
+    }, 200);
   }
 
   createEvent(): void {
