@@ -1,0 +1,21 @@
+<div class="container">
+  <div class="title">
+    <Span id="meet">Meet</Span>
+    <span id="me">Me</span>
+  </div>
+
+  <div class="main">
+    @switch (page) { @case ('create') {
+    <app-create></app-create>
+    } @case ('join') {
+    <app-join></app-join>
+    } @case ('default') {
+    <div>
+      <div class="buttons">
+        <button class="btn" id="create" (click)="create()">Create</button>
+        <button class="btn" id="join" (click)="join()">Join</button>
+      </div>
+    </div>
+    }}
+  </div>
+</div>

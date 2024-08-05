@@ -1,0 +1,14 @@
+<div class="container">
+  <input
+    class="code"
+    type="text"
+    placeholder="Event code"
+    [(ngModel)]="eventCode"
+  />
+  <button class="join" (click)="joinEvent()" [disabled]="!isValidEventCode()">
+    Join
+  </button>
+  @if (errorMsg !== undefined) {
+  <div class="error">{{ errorMsg }}</div>
+  }
+</div>

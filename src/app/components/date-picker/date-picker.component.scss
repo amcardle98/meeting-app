@@ -1,0 +1,71 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    // border: 1px solid #ccc;
+    // background-color: #4D4D4D;
+    background-color: #D6D3F0;
+    border-radius: 5px;
+}
+
+
+.cal-head-control {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    min-width: 400px;
+
+    #month {
+        margin: 0 1rem;
+        font-size: 2rem;
+        color: #4D4D4D;
+    }
+    #year {
+        font-size: 1rem;
+        color: #4D4D4D;
+    }
+
+    #arrow {
+        cursor: pointer;
+        font-size: 2rem;
+    }
+}
+
+.weekdays {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+
+}
+
+.calender-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-template-rows: repeat(6, 1fr);
+    gap: 5px;
+    padding: 5px;
+
+    .day {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: all .1s;
+
+        &:hover {
+            background-color: #4D4D4D;
+            color: #D6D3F0;
+        }
+    }
+
+    .selected {
+        background-color: #4D4D4D;
+        color: #D6D3F0;
+    }
+}
+
+.divider {
+    margin: .5rem 0;
+    border-bottom: 1px solid #4D4D4D;
+}

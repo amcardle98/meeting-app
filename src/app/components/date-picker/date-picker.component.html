@@ -1,0 +1,42 @@
+<div class="container">
+  <div class="cal-head-control">
+    <div
+      style="color: #4d4d4d; margin-left: 2rem"
+      id="arrow"
+      (click)="adjustCalender('back')"
+    >
+      <
+    </div>
+    <div>
+      <span id="month">{{ getMonth() }}</span>
+      <span id="year">{{ getYear() }}</span>
+    </div>
+
+    <div
+      style="color: #4d4d4d; margin-right: 2rem"
+      id="arrow"
+      (click)="adjustCalender('forward')"
+    >
+      >
+    </div>
+  </div>
+  <div class="weekdays">
+    <div>Su</div>
+    <div>Mo</div>
+    <div>Tu</div>
+    <div>We</div>
+    <div>Th</div>
+    <div>Fr</div>
+    <div>Sa</div>
+  </div>
+  <div class="divider"></div>
+  <div class="calender-grid">
+    <div *ngFor="let day of getDays()">
+      @if (day > 0 ) {
+      <div class="day" (click)="selectDay(day)" [ngClass]="{'selected': isSelected(day)}">
+        {{ day }}
+      </div>
+      }
+    </div>
+  </div>
+</div>

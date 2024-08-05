@@ -1,0 +1,40 @@
+.container {
+  //   border: 1px solid #ccc;
+  background-color: #0b3142;
+  padding: 1.5rem;
+  display: flex;
+  border-radius: 5px;
+}
+
+.container.loaded {
+}
+
+.event-date {
+    margin-right: 1rem;
+}
+
+.event-info {
+    display: flex;
+    flex-direction: column;
+    margin-left: 1rem;
+
+    .input {
+        font-size: 1rem;
+        padding: 0.5rem 1rem;
+        background-color: #D6D3F0;
+        border: none;
+        border-radius: 5px;
+        margin-bottom: 1rem;
+    }
+
+    .create {
+        margin-top: auto;
+        font-size: 1rem;
+        background-color: #D6D3F0;
+        color: #0B3142;
+        border: none;
+        padding: .5rem 0;
+        border-radius: 5px;
+        cursor: pointer;
+    };
+}
