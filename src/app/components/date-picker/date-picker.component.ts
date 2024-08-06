@@ -1,6 +1,14 @@
-import { Component } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  input,
+  Input,
+  output,
+  Output,
+} from '@angular/core';
 import { MeetService } from 'src/app/services/meet.service';
 import { isToday } from 'date-fns';
+import { HttpContext } from '@angular/common/http';
 
 @Component({
   selector: 'app-date-picker',
@@ -10,17 +18,19 @@ import { isToday } from 'date-fns';
 export class DatePickerComponent {
   today = new Date();
   selectedDates: Date[] = [];
+  weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+  //TODO: maybe switch this to signals once i discover how to use them
+  // @Output() dateSelected = new EventEmitter<Date[]>();
+
+  datesSelected = output<Date[]>();
+  eventStyle = input<string>();
 
   constructor(private readonly meetService: MeetService) {}
 
-  ngOnInit(): void {}
-
-  // getMonths(): string[] {
-  //   return [
-  //     'January', 'February', 'March', 'April', 'May', 'June',
-  //     'July', 'August', 'September', 'October', 'November', 'December'
-  //   ];
-  // }
+  ngOnInit(): void {
+    console.log(this.eventStyle);
+  }
 
   getMonth(): string {
     return this.today.toLocaleString('default', { month: 'long' });
@@ -60,23 +70,31 @@ export class DatePickerComponent {
     }
     return this.getMonth();
   }
-
   selectDay(date: number): void {
-    //if date is already selected, remove it
-    if (this.selectedDates.some((d) => d.getDate() === date)) {
+    const dateToCheck = new Date(
+      this.today.getFullYear(),
+      this.today.getMonth(),
+      date
+    );
+
+    // Check if date is already selected
+    const isDateSelected = this.selectedDates.some((d) => d.getDate() === date);
+
+    if (isDateSelected) {
+      // Remove the date if already selected
       this.selectedDates = this.selectedDates.filter(
         (d) => d.getDate() !== date
       );
-      return;
+    } else {
+      // Add the new date to the selected dates
+      this.selectedDates.push(dateToCheck);
     }
 
-    this.selectedDates.push(
-      new Date(this.today.getFullYear(), this.today.getMonth(), date)
-    );
+    this.datesSelected.emit(this.selectedDates);
 
-    //set background color for selected date
+    // Optionally, set background color for selected date here
 
-    console.log(this.selectedDates);
+    // console.log(this.selectedDates);
   }
 
   isSelected(day: number): boolean {
@@ -86,5 +104,16 @@ export class DatePickerComponent {
         date.getMonth() === this.today.getMonth() &&
         date.getFullYear() === this.today.getFullYear()
     );
+  }
+
+  handleCalenderClick(day: number): void {
+    //function runs when mousedown
+    // console.log('mousedown');
+
+    const daySelected = document.getElementById('day-' + day);
+
+    if (daySelected) {
+      daySelected.classList.add('multi-selected');
+    }
   }
 }

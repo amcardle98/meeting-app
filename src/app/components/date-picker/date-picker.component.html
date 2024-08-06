@@ -21,19 +21,21 @@
     </div>
   </div>
   <div class="weekdays">
-    <div>Su</div>
-    <div>Mo</div>
-    <div>Tu</div>
-    <div>We</div>
-    <div>Th</div>
-    <div>Fr</div>
-    <div>Sa</div>
+    @for (day of weekdays; track $index) {
+    <div class="weekday" [ngClass]="{ selectable: eventStyle() == 'broad' }">
+      {{ day }}
+    </div>
+    }
   </div>
   <div class="divider"></div>
   <div class="calender-grid">
     <div *ngFor="let day of getDays()">
       @if (day > 0 ) {
-      <div class="day" (click)="selectDay(day)" [ngClass]="{'selected': isSelected(day)}">
+      <div
+        class="day"
+        [ngClass]="{ selectable: eventStyle() == 'specific', selected: isSelected(day) }"
+        (click)="selectDay(day)"
+      >
         {{ day }}
       </div>
       }

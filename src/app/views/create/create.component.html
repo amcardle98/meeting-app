@@ -1,11 +1,40 @@
-<div class="container" [ngClass]="{'container-loading' : loaded}">
-    <div class="event-date">
-        <app-date-picker></app-date-picker>
+<div class="container" [ngClass]="{ 'container-loading': loaded }">
+  <div class="event-date">
+    <app-date-picker
+      [eventStyle]="eventStyle"
+      (datesSelected)="onDatesSelected($event)"
+    ></app-date-picker>
+  </div>
+  <div class="event-info">
+    <input
+      class="input"
+      id="name"
+      type="text"
+      placeholder="Event name"
+      style="border-top-left-radius: 5px"
+      [ngModel]="eventName"
+    />
+    <div class="event-styles">
+      <button
+        [ngClass]="{ selected: eventStyle == 'specific' }"
+        (click)="eventStyle = 'specific'"
+      >
+        Specific
+      </button>
+      <button
+        [ngClass]="{ selected: eventStyle == 'broad' }"
+        (click)="eventStyle = 'broad'"
+        style="border-bottom-left-radius: 5px; border-bottom-right-radius: 5px"
+      >
+        Broad
+      </button>
     </div>
-    <div class="event-info">
-        <input class="input" id="name" type="text" placeholder="Event name">
-        <input class="input" id="time" type="text" placeholder="Event time" >
-        <input class="input" id="desc" type="text" placeholder="Event description">
-        <button class="create" (click)="createEvent()">Create</button>
+    @if (eventStyle == 'specific') {
+    <div class="time-pick">
+      <input class="time-input" id="time" type="time" />
+      <input class="time-input" id="time" type="time" />
     </div>
+    }
+    <button class="create" (click)="isEventValid()">Create</button>
+  </div>
 </div>
