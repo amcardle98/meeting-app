@@ -5,8 +5,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './views/home/home.component';
 import { DatePickerComponent } from './components/date-picker/date-picker.component';
-import { CreateComponent } from './components/create/create.component';
-import { JoinComponent } from './components/join/join.component';
+import { CreateComponent } from './views/create/create.component';
+import { JoinComponent } from './views/join/join.component';
 import { FormsModule } from '@angular/forms';
 
 @NgModule({

@@ -11,7 +11,7 @@ export class CreateComponent {
   loaded = false;
 
   constructor(private readonly meetService: MeetService) {
-    this.eventCode = this.meetService.generateEventCody();
+    this.eventCode = this.meetService.generateEventCode();
   }
 
   ngOnInit(): void {

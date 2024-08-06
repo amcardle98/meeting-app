@@ -1,0 +1,23 @@
+.container {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+}
+
+.title  {
+    font-size: 5rem;
+    font-weight: bold; 
+    margin-bottom: 3rem;
+    margin-top: 5%;
+
+    #meet {
+        color: #D6D3F0;
+    }
+
+    #me  {
+        //0B3142
+        color: #0B3142;
+    }
+}

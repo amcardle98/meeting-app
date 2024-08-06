@@ -1,1 +1,7 @@
-<router-outlet></router-outlet>
+<div class="container" [@routeAnimations]="getRouteAnimationData()">
+  <div class="title">
+    <Span id="meet">Meet</Span>
+    <span id="me">Me</span>
+  </div>
+  <router-outlet></router-outlet>
+</div>

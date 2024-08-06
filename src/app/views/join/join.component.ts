@@ -8,14 +8,6 @@ import { Component } from '@angular/core';
 export class JoinComponent {
   eventCode!: string;
   errorMsg!: string;
-  loaded = false;
-
-  ngOnInit(): void {
-    //wait 2 seconds
-    setTimeout(() => {
-      this.loaded = true;
-    }, 200);
-  }
 
   joinEvent(): void {
     this.errorMsg = `No event found with code: ${this.eventCode}`;
@@ -24,7 +16,5 @@ export class JoinComponent {
   isValidEventCode(): boolean {
     return Boolean(this.eventCode) && this.eventCode.length === 5;
   }
-
-
 
 }

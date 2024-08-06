@@ -11,7 +11,7 @@ export class MeetService {
     return 'lobbyId';
   }
 
-  generateEventCody(): string {
+  generateEventCode(): string {
     //geneate 5 character random string
     const randomChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     const result = [];
