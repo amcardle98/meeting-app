@@ -40,6 +40,36 @@ export class DatePickerComponent {
     return this.today.getFullYear();
   }
 
+  selectBroad(day: string) {
+    if (this.eventStyle() == 'specific') {
+      return;
+    }
+
+    const year = this.today.getFullYear();
+    const month = this.today.getMonth();
+    const validDays = this.getDays().filter((d) => d > 0);
+
+    if (day === 'all') {
+      this.selectedDates = validDays.map((d) => new Date(year, month, d));
+    } else {
+      const datesSelected = validDays
+        .filter((d) => this.weekdays[new Date(year, month, d).getDay()] === day)
+        .map((d) => new Date(year, month, d));
+
+      for (const date of datesSelected) {
+        if (!this.selectedDates.some((d) => d.getTime() === date.getTime())) {
+          this.selectedDates.push(date);
+        } else {
+          this.selectedDates = this.selectedDates.filter(
+            (d) => d.getTime() !== date.getTime()
+          );
+        }
+      }
+    }
+
+    this.datesSelected.emit(this.selectedDates);
+  }
+
   getDays(): number[] {
     const offset = new Date(
       this.today.getFullYear(),
@@ -51,7 +81,13 @@ export class DatePickerComponent {
       this.today.getMonth() + 1,
       0
     ).getDate();
-    return Array.from({ length: offset + days }, (_, i) => i - offset + 1);
+
+    const totalDays = Array.from(
+      { length: offset + days },
+      (_, i) => i - offset + 1
+    );
+
+    return totalDays;
   }
 
   getFirstDayOfMonth(): string {
@@ -70,7 +106,12 @@ export class DatePickerComponent {
     }
     return this.getMonth();
   }
+
   selectDay(date: number): void {
+    if (this.eventStyle() == 'broad') {
+      return;
+    }
+
     const dateToCheck = new Date(
       this.today.getFullYear(),
       this.today.getMonth(),
@@ -91,10 +132,6 @@ export class DatePickerComponent {
     }
 
     this.datesSelected.emit(this.selectedDates);
-
-    // Optionally, set background color for selected date here
-
-    // console.log(this.selectedDates);
   }
 
   isSelected(day: number): boolean {

@@ -22,7 +22,7 @@
   </div>
   <div class="weekdays">
     @for (day of weekdays; track $index) {
-    <div class="weekday" [ngClass]="{ selectable: eventStyle() == 'broad' }">
+    <div class="weekday" [ngClass]="{ selectable: eventStyle() == 'broad' }" (click)="selectBroad(day)">
       {{ day }}
     </div>
     }

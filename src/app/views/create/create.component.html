@@ -38,3 +38,13 @@
     <button class="create" (click)="isEventValid()">Create</button>
   </div>
 </div>
+<div class="preview">
+  <h2>Dates Selected</h2>
+  <div class="dates">
+    @for (date of selectedDates; track $index) {
+    <div class="date">
+      <span>{{ date  | date: 'fullDate'}}</span>
+    </div>
+    }
+  </div>
+</div>
