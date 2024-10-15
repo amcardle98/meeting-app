@@ -1,14 +1,8 @@
-import {
-  Component,
-  EventEmitter,
-  input,
-  Input,
-  output,
-  Output,
-} from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { MeetService } from 'src/app/services/meet.service';
-import { isToday } from 'date-fns';
-import { HttpContext } from '@angular/common/http';
+import { Event } from 'src/app/services/event.service';
+
+const WEEKDAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
 @Component({
   selector: 'app-date-picker',
@@ -18,10 +12,8 @@ import { HttpContext } from '@angular/common/http';
 export class DatePickerComponent {
   today = new Date();
   selectedDates: Date[] = [];
-  weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-
-  //TODO: maybe switch this to signals once i discover how to use them
-  // @Output() dateSelected = new EventEmitter<Date[]>();
+  selectedMonthDays: number[] = [];
+  weekDays = WEEKDAYS;
 
   datesSelected = output<Date[]>();
   eventStyle = input<string>();
@@ -29,7 +21,7 @@ export class DatePickerComponent {
   constructor(private readonly meetService: MeetService) {}
 
   ngOnInit(): void {
-    console.log(this.eventStyle);
+    this.getDays();
   }
 
   getMonth(): string {
@@ -47,13 +39,16 @@ export class DatePickerComponent {
 
     const year = this.today.getFullYear();
     const month = this.today.getMonth();
-    const validDays = this.getDays().filter((d) => d > 0);
+    const validDays = Array.from(
+      { length: new Date(year, month + 1, 0).getDate() },
+      (_, i) => i + 1
+    );
 
     if (day === 'all') {
       this.selectedDates = validDays.map((d) => new Date(year, month, d));
     } else {
       const datesSelected = validDays
-        .filter((d) => this.weekdays[new Date(year, month, d).getDay()] === day)
+        .filter((d) => WEEKDAYS[new Date(year, month, d).getDay()] === day)
         .map((d) => new Date(year, month, d));
 
       for (const date of datesSelected) {
@@ -70,7 +65,7 @@ export class DatePickerComponent {
     this.datesSelected.emit(this.selectedDates);
   }
 
-  getDays(): number[] {
+  getDays() {
     const offset = new Date(
       this.today.getFullYear(),
       this.today.getMonth(),
@@ -87,7 +82,7 @@ export class DatePickerComponent {
       (_, i) => i - offset + 1
     );
 
-    return totalDays;
+    this.selectedMonthDays = totalDays;
   }
 
   getFirstDayOfMonth(): string {
@@ -98,13 +93,14 @@ export class DatePickerComponent {
     ).toLocaleString('default', { weekday: 'long' });
   }
 
-  adjustCalender(action: string): string {
+  adjustCalender(action: string) {
     if (action === 'back') {
       this.today.setMonth(this.today.getMonth() - 1);
     } else {
       this.today.setMonth(this.today.getMonth() + 1);
     }
-    return this.getMonth();
+
+    this.getDays();
   }
 
   selectDay(date: number): void {

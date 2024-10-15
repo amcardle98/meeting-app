@@ -12,7 +12,7 @@
       type="text"
       placeholder="Event name"
       style="border-top-left-radius: 5px"
-      [ngModel]="eventName"
+      [(ngModel)]="eventName"
     />
     <div class="event-styles">
       <button
@@ -31,19 +31,19 @@
     </div>
     @if (eventStyle == 'specific') {
     <div class="time-pick">
-      <input class="time-input" id="time" type="time" />
-      <input class="time-input" id="time" type="time" />
+      <input class="time-input" id="time" type="time" [(ngModel)]="startTime" />
+      <input class="time-input" id="time" type="time" [(ngModel)]="endTime" />
     </div>
     }
     <button class="create" (click)="isEventValid()">Create</button>
   </div>
 </div>
-<div class="preview">
+<div class="preview" *ngIf="selectedDates.length">
   <h2>Dates Selected</h2>
   <div class="dates">
     @for (date of selectedDates; track $index) {
     <div class="date">
-      <span>{{ date  | date: 'fullDate'}}</span>
+      <span>{{ date | date : "fullDate" }}</span>
     </div>
     }
   </div>
