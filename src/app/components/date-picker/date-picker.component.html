@@ -21,19 +21,26 @@
     </div>
   </div>
   <div class="weekdays">
-    @for (day of weekdays; track $index) {
-    <div class="weekday" [ngClass]="{ selectable: eventStyle() == 'broad' }" (click)="selectBroad(day)">
+    @for (day of weekDays; track $index) {
+    <div
+      class="weekday"
+      [ngClass]="{ selectable: eventStyle() == 'broad' }"
+      (click)="selectBroad(day)"
+    >
       {{ day }}
     </div>
     }
   </div>
   <div class="divider"></div>
   <div class="calender-grid">
-    <div *ngFor="let day of getDays()">
+    <div *ngFor="let day of selectedMonthDays">
       @if (day > 0 ) {
       <div
         class="day"
-        [ngClass]="{ selectable: eventStyle() == 'specific', selected: isSelected(day) }"
+        [ngClass]="{
+          selectable: eventStyle() == 'specific',
+          selected: isSelected(day)
+        }"
         (click)="selectDay(day)"
       >
         {{ day }}

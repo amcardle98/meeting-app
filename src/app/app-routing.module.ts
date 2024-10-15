@@ -4,6 +4,7 @@ import { HomeComponent } from './views/home/home.component';
 import { JoinComponent } from './views/join/join.component';
 import { CreateComponent } from './views/create/create.component';
 import { animation } from '@angular/animations';
+import { EventComponent } from './views/event/event.component';
 
 /**
  * TODO: Add animations to routes
@@ -17,6 +18,7 @@ const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'join', component: JoinComponent },
   { path: 'create', component: CreateComponent},
+  { path: 'event/:code', component: EventComponent},
 ];
 
 @NgModule({

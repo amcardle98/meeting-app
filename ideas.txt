@@ -1,0 +1,1 @@
+event creator can "confirm" event time so it locks in a date, once the date is confirmed then all people in the event will be able to add the date to calender or save it somehow

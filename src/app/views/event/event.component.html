@@ -1,0 +1,35 @@
+<div class="container" *ngIf="event$ | async as event; else loading">
+  <div class="event">
+    <div class="event-details">
+      <div class="event-main">
+        <div style="font-size: 2rem">Event: {{ event.name }}</div>
+        <div>Created on: {{ event.eventCreated | date : "MMMM d, yyyy" }}</div>
+
+        @if (event.description) {
+        <div style="margin-top: 2rem">Description: {{ event.description }}</div>
+        } @else {
+        <div style="margin-top: 2rem">No description provided</div>
+        }
+      </div>
+    </div>
+  </div>
+
+  <div class="schedule" style="color: white">
+    <div class="schedule-header">
+      <div style="font-size: 2rem">Schedule</div>
+    </div>
+    <div class="schedule-body">
+      <div class="schedule-list">
+        <div *ngFor="let date of event.dates">
+          <div class="schedule-item">
+            <div>{{ date | date : "fullDate" }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #loading>
+  <p>Loading event...</p>
+</ng-template>

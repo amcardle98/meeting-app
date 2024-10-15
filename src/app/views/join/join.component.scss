@@ -4,13 +4,13 @@
   align-items: center;
 }
 
-.code {
+.input {
   background-color: #d6d3f0;
   border: none;
   font-size: 1rem;
-  padding: .5rem 1rem;
+  padding: 0.5rem 1rem;
   border-radius: 5px;
-  margin: 15% 0 1rem 0;
+  margin-bottom: 0.5rem;
 }
 
 .join {
@@ -20,7 +20,13 @@
   padding: 1rem 3rem;
   border-radius: 0.5rem;
   cursor: pointer;
-  
+  margin: 1rem 0;
+}
+
+.disabled {
+  background-color: #0b314264;
+  color: #d6d3f086;
+  cursor: not-allowed;
 }
 
 .error {

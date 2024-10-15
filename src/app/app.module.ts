@@ -7,7 +7,11 @@ import { HomeComponent } from './views/home/home.component';
 import { DatePickerComponent } from './components/date-picker/date-picker.component';
 import { CreateComponent } from './views/create/create.component';
 import { JoinComponent } from './views/join/join.component';
+import { EventComponent } from './views/event/event.component';
 import { FormsModule } from '@angular/forms';
+import { environment } from 'src/environments/environment';
+import { AngularFireModule } from '@angular/fire/compat';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -15,14 +19,17 @@ import { FormsModule } from '@angular/forms';
     HomeComponent,
     DatePickerComponent,
     CreateComponent,
-    JoinComponent
+    JoinComponent,
+    EventComponent,
   ],
   imports: [
+    CommonModule,
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig),
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

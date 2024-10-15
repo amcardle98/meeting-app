@@ -1,0 +1,51 @@
+.event {
+  border-radius: 10px;
+  padding: 1rem;
+  border: 1px solid #ccc;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  .event-details {
+    display: flex;
+    flex-direction: column;
+    color: white;
+    margin: 0 3rem;
+
+    .event-schedule {
+      margin-top: 2rem;
+
+      .date-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-gap: 1rem;
+      }
+    }
+  }
+  .joiner-details {
+    display: flex;
+    flex-direction: column;
+    color: white;
+    margin: 0 3rem;
+
+    .info {
+      display: flex;
+      flex-direction: column;
+
+      input {
+        margin: 0.5rem 0;
+        padding: 0.5rem;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        background-color: #d6d3f0;
+        font-size: 1rem;
+      }
+    }
+  }
+}
+
+.schedule {
+  padding: 1rem;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  margin-top: 1rem;
+}

@@ -1,11 +1,25 @@
 <div class="container">
   <input
-    class="code"
+    class="input"
+    type="text"
+    placeholder="Name"
+    [(ngModel)]="name"
+    (input)="isValidEventCode()"
+  />
+  <input
+    class="input"
     type="text"
     placeholder="Event code"
     [(ngModel)]="eventCode"
+    (input)="isValidEventCode()"
   />
-  <button class="join" (click)="joinEvent()" [disabled]="!isValidEventCode()">
+
+  <button
+    class="join"
+    (click)="joinEvent()"
+    [disabled]="!codeValid"
+    [ngClass]="{ disabled: !codeValid }"
+  >
     Join
   </button>
   @if (errorMsg !== undefined) {
