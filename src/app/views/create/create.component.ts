@@ -46,25 +46,25 @@ export class CreateComponent {
     let isValid = true;
 
     //specific event
-    if (this.eventStyle === 'specific') {
-      if (this.selectedDates.length === 0) {
-        isValid = false;
-      }
-    }
+    // if (this.eventStyle === 'specific') {
+    //   if (this.selectedDates.length === 0) {
+    //     isValid = false;
+    //   }
+    // }
 
     //broadevent
-    if (this.eventStyle === 'broad') {
-      if (!this.selectedDates.length) {
-        alert('Please fill out all fields');
-        return;
-      }
-    }
+    // if (this.eventStyle === 'broad') {
+    //   if (!this.selectedDates.length) {
+    //     alert('Please fill out all fields');
+    //     return;
+    //   }
+    // }
 
     if (!isValid) {
       alert('Please fill out all fields');
     } else {
-      // this.createLobby(this.eventStyle, this.selectedDates);
-      console.log(this.startTime + ' ' + this.endTime);
+      this.createLobby(this.eventStyle, this.selectedDates);
+      // console.log(this.startTime + ' ' + this.endTime);
     }
   }
 
