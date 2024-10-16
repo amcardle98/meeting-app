@@ -3,6 +3,7 @@
     <div class="event-details">
       <div class="event-main">
         <div style="font-size: 2rem">Event: {{ event.name }}</div>
+        <div style="font-size: 2rem">Code: {{ event.eventCode }}</div>
         <div>Created on: {{ event.eventCreated | date : "MMMM d, yyyy" }}</div>
 
         @if (event.description) {

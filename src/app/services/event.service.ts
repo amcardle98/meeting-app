@@ -20,6 +20,8 @@ export class Event {
   eventCode?: string;
   eventCreated?: Date;
   eventEnded?: Date | null;
+  participants?: string[];
+  lobbyCreator?: string;
 
   constructor() {
     this.dates = [];

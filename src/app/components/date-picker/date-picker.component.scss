@@ -5,7 +5,7 @@
   // background-color: #4D4D4D;
   background-color: #d6d3f0;
   border-radius: 5px;
-    padding: .5rem;
+  padding: 0.5rem;
 }
 
 .cal-head-control {
@@ -49,14 +49,14 @@
   display: flex;
   flex-direction: row;
   user-select: none;
-    justify-content: space-around;
-  
+  justify-content: space-around;
+
   .weekday {
     font-size: 1rem;
     color: #4d4d4d;
-    padding: 0 .8rem;
+    padding: 0 0.8rem;
     border-radius: 5px;
-    opacity: .3;
+    opacity: 0.3;
   }
 }
 
@@ -88,7 +88,8 @@
     justify-content: center;
     align-items: center;
     border-radius: 5px;
-    opacity: .3;
+    opacity: 0.3;
+    padding: 0.5rem;
 
     //click and drag
     &.drag {

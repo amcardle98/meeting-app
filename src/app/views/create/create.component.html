@@ -14,16 +14,24 @@
       style="border-top-left-radius: 5px"
       [(ngModel)]="eventName"
     />
+    <input
+      class="input"
+      id="name"
+      type="text"
+      placeholder="Your Name"
+      style="border-top-left-radius: 5px"
+      [(ngModel)]="eventCreator"
+    />
     <div class="event-styles">
       <button
         [ngClass]="{ selected: eventStyle == 'specific' }"
-        (click)="eventStyle = 'specific'"
+        (click)="changeEventStyle('specific')"
       >
         Specific
       </button>
       <button
         [ngClass]="{ selected: eventStyle == 'broad' }"
-        (click)="eventStyle = 'broad'"
+        (click)="changeEventStyle('broad')"
         style="border-bottom-left-radius: 5px; border-bottom-right-radius: 5px"
       >
         Broad
@@ -31,8 +39,17 @@
     </div>
     @if (eventStyle == 'specific') {
     <div class="time-pick">
-      <input class="time-input" id="time" type="time" [(ngModel)]="startTime" />
-      <input class="time-input" id="time" type="time" [(ngModel)]="endTime" />
+      <select name="" id="" [(ngModel)]="startTime">
+        <option *ngFor="let time of times">
+          {{ time | date : "shortTime" }}
+        </option>
+      </select>
+      <select name="" id="" [(ngModel)]="endTime">
+        <!-- adding selected sets it to the bottom of the dropdown for some reason -->
+        <option *ngFor="let time of times" selected>
+          {{ time | date : "shortTime" }}
+        </option>
+      </select>
     </div>
     }
     <button class="create" (click)="isEventValid()">Create</button>
@@ -43,7 +60,10 @@
   <div class="dates">
     @for (date of selectedDates; track $index) {
     <div class="date">
-      <span>{{ date | date : "fullDate" }}</span>
+      <span
+        >{{ date | date : "fullDate" }} {{ startTime }}
+        <span *ngIf="endTime"> - </span> {{ endTime }}</span
+      >
     </div>
     }
   </div>

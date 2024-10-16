@@ -15,6 +15,11 @@
   margin-right: 1rem;
 }
 
+.time-pick {
+  display: flex;
+  flex-direction: column;
+}
+
 .event-styles {
   display: flex;
   justify-content: center;
