@@ -18,7 +18,7 @@
           "builder": "@angular-devkit/build-angular:application",
           "options": {
             "outputPath": {
-              "base": "dist/meeting-app"
+              "base": "public"
             },
             "index": "src/index.html",
             "polyfills": ["zone.js"],
