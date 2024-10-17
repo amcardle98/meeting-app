@@ -9,7 +9,7 @@ import { CreateComponent } from './views/create/create.component';
 import { JoinComponent } from './views/join/join.component';
 import { EventComponent } from './views/event/event.component';
 import { FormsModule } from '@angular/forms';
-import { environment } from '../environments/environment.development';
+import { environment } from '../environments/environment';
 import { AngularFireModule } from '@angular/fire/compat';
 import { CommonModule } from '@angular/common';
 
