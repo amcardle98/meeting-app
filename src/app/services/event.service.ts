@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { filter, map, Observable, of } from 'rxjs';
 import { uid } from 'uid';
@@ -32,7 +32,7 @@ export class Event {
   providedIn: 'root',
 })
 export class EventService {
-  constructor(private readonly fs: AngularFirestore) {}
+  constructor(private fs: AngularFirestore) {}
 
   getEvents(): Observable<Event[]> {
     return this.fs
@@ -44,7 +44,7 @@ export class EventService {
   getEventByCode(eventCode: string): Observable<Event | null> {
     console.log(eventCode);
 
-    const event = this.fs
+    return this.fs
       .collection<Event>('events', (ref) =>
         ref.where('eventCode', '==', eventCode)
       )
@@ -58,9 +58,10 @@ export class EventService {
               event.eventCreated = event.eventCreated.toDate();
             }
 
-            for (let date of event.dates) {
+            for (let i = 0; i < event.dates.length; i++) {
+              const date = event.dates[i];
               if (date instanceof Timestamp) {
-                event.dates[event.dates.indexOf(date)] = date.toDate();
+                event.dates[i] = date.toDate();
               }
             }
 
@@ -69,8 +70,6 @@ export class EventService {
           return null; // Return null if no event found
         })
       );
-
-    return event;
   }
 
   addEvent(event: Partial<Event>): Promise<any> {

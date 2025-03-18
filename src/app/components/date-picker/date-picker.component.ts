@@ -1,13 +1,13 @@
 import { Component, input, output } from '@angular/core';
-import { MeetService } from 'src/app/services/meet.service';
 import { Event } from 'src/app/services/event.service';
 
 const WEEKDAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
 @Component({
-  selector: 'app-date-picker',
-  templateUrl: './date-picker.component.html',
-  styleUrls: ['./date-picker.component.scss'],
+    selector: 'app-date-picker',
+    templateUrl: './date-picker.component.html',
+    styleUrls: ['./date-picker.component.scss'],
+    standalone: false
 })
 export class DatePickerComponent {
   today = new Date();
@@ -17,8 +17,6 @@ export class DatePickerComponent {
 
   datesSelected = output<Date[]>();
   eventStyle = input<string>();
-
-  constructor(private readonly meetService: MeetService) {}
 
   ngOnInit(): void {
     this.getDays();

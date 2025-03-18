@@ -4,9 +4,10 @@ import { catchError, map, Observable, of, switchMap, tap } from 'rxjs';
 import { EventService, Event } from 'src/app/services/event.service';
 
 @Component({
-  selector: 'app-event',
-  templateUrl: './event.component.html',
-  styleUrl: './event.component.scss',
+    selector: 'app-event',
+    templateUrl: './event.component.html',
+    styleUrl: './event.component.scss',
+    standalone: false
 })
 export class EventComponent {
   event$: Observable<Event | null> = this.activatedRoute.params.pipe(

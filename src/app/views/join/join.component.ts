@@ -4,9 +4,10 @@ import { tap } from 'rxjs';
 import { EventService } from 'src/app/services/event.service';
 
 @Component({
-  selector: 'app-join',
-  templateUrl: './join.component.html',
-  styleUrls: ['./join.component.scss'],
+    selector: 'app-join',
+    templateUrl: './join.component.html',
+    styleUrls: ['./join.component.scss'],
+    standalone: false
 })
 export class JoinComponent {
   eventCode!: string;

@@ -71,6 +71,12 @@
     border-radius: 5px;
     cursor: pointer;
   }
+
+  .btn-disabled {
+    background-color: #5e5e5e;
+    color: #0b3142;
+    cursor: not-allowed;
+  }
 }
 
 .date {
