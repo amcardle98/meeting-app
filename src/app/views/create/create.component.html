@@ -3,87 +3,153 @@
   [ngClass]="{ 'container-loading': loaded }"
   [formGroup]="eventInfo"
 >
-  <div class="event-date">
+  <!-- First column: Date Picker -->
+  <div class="left-panel">
     <app-date-picker
-      [eventStyle]="this.eventInfo.value.eventStyle!"
+      [selectionMode]="currentSelectionMode"
+      [timeRangeMode]="currentTimeRangeMode"
+      (selectionModeChanged)="onSelectionModeChange($event)"
+      (timeRangeModeChanged)="onTimeRangeModeChange($event)"
       (datesSelected)="onDatesSelected($event)"
     ></app-date-picker>
   </div>
-  <div class="event-info">
-    <input
-      class="input"
-      id="name"
-      type="text"
-      placeholder="Event name"
-      style="border-top-left-radius: 5px"
-      formControlName="eventName"
-    />
-    <input
-      class="input"
-      id="name"
-      type="text"
-      placeholder="Your Name"
-      style="border-top-left-radius: 5px"
-      formControlName="eventCreator"
-    />
-    <div class="event-styles">
+
+  <!-- Second column: Selection Controls -->
+  <div class="middle-panel">
+    <div class="selection-controls">
+      <!-- Mode Selection -->
+      <div class="control-group">
+        <label>Selection Mode</label>
+        <div class="mode-selector">
+          <button
+            [class.active]="currentSelectionMode === 'specific'"
+            (click)="onSelectionModeChange('specific')"
+          >
+            Select Specific Dates
+          </button>
+          <button
+            [class.active]="currentSelectionMode === 'broad'"
+            (click)="onSelectionModeChange('broad')"
+          >
+            Date Range
+          </button>
+        </div>
+      </div>
+
+      <!-- Time Range Selection -->
+      <div class="control-group">
+        <label>Time Preference</label>
+        <div class="time-range-selector">
+          <button
+            [class.active]="!currentTimeRangeMode"
+            (click)="onTimeRangeModeChange(false)"
+          >
+            Anytime
+          </button>
+          <button
+            [class.active]="currentTimeRangeMode"
+            (click)="onTimeRangeModeChange(true)"
+          >
+            With Time Range
+          </button>
+        </div>
+      </div>
+
+      <!-- Time Range Selection -->
+      <div class="control-group" *ngIf="currentTimeRangeMode">
+        <label>Time Range</label>
+        <div class="time-picker">
+          <div class="time-input">
+            <mat-form-field>
+              <mat-label>Pick a time</mat-label>
+              <input
+                matInput
+                [matTimepicker]="startTimePicker"
+                formControlName="startTime"
+              />
+              <mat-timepicker-toggle matIconSuffix [for]="startTimePicker" />
+              <mat-timepicker #startTimePicker />
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Pick a time</mat-label>
+              <input
+                matInput
+                [matTimepicker]="endTimePicker"
+                formControlName="endTime"
+              />
+              <mat-timepicker-toggle matIconSuffix [for]="endTimePicker" />
+              <mat-timepicker #endTimePicker />
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Third column: Event Info -->
+  <div class="right-panel">
+    <h2>Event Information</h2>
+    <div class="event-details">
+      <div class="form-group">
+        <input
+          type="text"
+          formControlName="eventName"
+          placeholder="Enter event name"
+          class="form-input"
+        />
+        <!-- <div
+          class="error-message"
+          *ngIf="eventInfo.get('eventName')?.errors?.['required'] &&
+             eventInfo.get('eventName')?.touched"
+        >
+          Event name is required
+        </div> -->
+      </div>
+
+      <div class="form-group">
+        <input
+          type="text"
+          formControlName="eventCreator"
+          placeholder="Enter your name"
+          class="form-input"
+        />
+        <!-- <div
+          class="error-message"
+          *ngIf="eventInfo.get('eventCreator')?.errors?.['required'] &&
+             eventInfo.get('eventCreator')?.touched"
+        >
+          Creator name is required
+        </div> -->
+      </div>
+      <!-- Selected Dates Summary -->
+      <div class="selected-dates" *ngIf="selectedDates.length > 0">
+        <div class="dates-header">
+          <label>Selected Dates ({{ selectedDates.length }})</label>
+          <label class="clear" (click)="clearDates()">clear</label>
+        </div>
+        <div class="dates-preview">
+          <div *ngFor="let date of selectedDates.slice(0, 3)" class="date-item">
+            {{ date | date : "mediumDate" }}
+          </div>
+          <div *ngIf="selectedDates.length > 3" class="more-dates">
+            And {{ selectedDates.length - 3 }} more...
+          </div>
+        </div>
+      </div>
+
+      <!-- Create Button -->
       <button
-        [ngClass]="{ selected: this.eventInfo.value.eventStyle == 'specific' }"
-        (click)="changeEventStyle('specific')"
+        class="create-button"
+        (click)="isEventValid()"
+        [disabled]="!eventInfo.valid || selectedDates.length === 0"
       >
-        Specific
-      </button>
-      <button
-        [ngClass]="{ selected: this.eventInfo.value.eventStyle == 'broad' }"
-        (click)="changeEventStyle('broad')"
-        style="border-bottom-left-radius: 5px; border-bottom-right-radius: 5px"
-      >
-        Broad
+        Create Event
       </button>
     </div>
-    @if (this.eventInfo.value.eventStyle == 'specific') {
-    <div class="time-pick">
-      <!-- <select
-        name=""
-        id=""
-        (change)="timeControl()"
-        formControlName="startTime"
-      >
-        <option *ngFor="let time of times" [ngValue]="time">
-          {{ time | date : "shortTime" }}
-        </option>
-      </select> -->
-      <mat-form-field>
-        <mat-label>Pick a time</mat-label>
-        <input matInput [matTimepicker]="picker">
-        <mat-timepicker-toggle matIconSuffix [for]="picker"/>
-        <mat-timepicker #picker/>
-      </mat-form-field>
-      <!-- <select name="" id="" formControlName="endTime">
-        adding selected sets it to the bottom of the dropdown for some reason
-        <option *ngFor="let time of filteredTimes" [ngValue]="time">
-          {{ time | date : "shortTime" }}
-        </option>
-      </select> -->
-      <mat-form-field>
-        <mat-label>Pick a time</mat-label>
-        <input matInput [matTimepicker]="picker">
-        <mat-timepicker-toggle matIconSuffix [for]="picker"/>
-        <mat-timepicker #picker/>
-      </mat-form-field>
-    </div>
-    }
-    <button
-      class="create"
-      (click)="isEventValid()"
-      [ngClass]="{ 'btn-disabled': !this.eventInfo.valid }"
-    >
-      Create
-    </button>
   </div>
 </div>
 <div class="preview" *ngIf="selectedDates.length">
-  <h2>Dates Selected</h2>
+  <!-- <h2>Dates Selected</h2>
   <div class="dates">
     @for (date of selectedDates; track $index) {
     <div class="date">
@@ -95,5 +161,5 @@
       >
     </div>
     }
-  </div>
+  </div> -->
 </div>

@@ -1,23 +1,188 @@
 .container {
-  //   border: 1px solid #ccc;
-  background-color: #0b3142;
-  padding: 1.5rem;
   display: flex;
-  border-radius: 5px;
-  opacity: 0;
+  margin: 0 1rem;
+  gap: 2rem;
 }
 
-.container-loading {
-  transition: all 0.2s ease-in-out;
-  opacity: 100;
+.left-panel {
+  flex: 1; // Takes up remaining space
+  min-width: 0; // Prevents overflow
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
 }
-.event-date {
-  margin-right: 1rem;
+
+.middle-panel {
+  // width: 300px; // Fixed width for the middle panel
+  min-width: 300px; // Prevents overflow
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+}
+
+.right-panel {
+  // width: 400px; // Fixed width for the right panel
+  min-width: 300px; // Prevents overflow
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+}
+
+.selection-controls {
+  h2 {
+    margin: 0 0 1rem;
+    color: #2c3e50;
+    font-size: 1.5rem;
+  }
+
+  .control-group {
+    margin-bottom: 1.5rem;
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: #2c3e50;
+      font-weight: 500;
+    }
+  }
+}
+
+.event-details {
+  margin-top: 2rem;
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: #2c3e50;
+      font-weight: 500;
+    }
+
+    .form-input {
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      transition: border-color 0.2s;
+      padding: 0.5rem;
+      margin-bottom: 1rem;
+
+      &:focus {
+        outline: none;
+        border-color: #007bff;
+        box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+      }
+    }
+
+    .error-message {
+      color: #dc3545;
+      font-size: 0.75rem;
+      margin-top: 0.25rem;
+    }
+  }
+
+  .create-button {
+    width: 100%;
+    padding: 1rem;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+
+    &:hover:not(:disabled) {
+      background: #0056b3;
+    }
+
+    &:disabled {
+      background: #b3d7ff;
+      cursor: not-allowed;
+    }
+  }
+}
+
+.mode-selector,
+.time-range-selector {
+  display: flex;
+  gap: 0.5rem;
+
+  button {
+    flex: 1;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    background: #f8f9fa;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 0.875rem;
+    color: #495057;
+
+    &.active {
+      background: #007bff;
+      color: white;
+      border-color: #0056b3;
+    }
+
+    &:hover:not(.active) {
+      background: #e9ecef;
+    }
+  }
+}
+
+.selected-dates {
+  margin-bottom: 1.5rem;
+
+  label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #2c3e50;
+    font-weight: 500;
+  }
+
+  .dates-header {
+    display: flex;
+    justify-content: space-between;
+
+    .clear {
+      color: rgb(61, 125, 235);
+      cursor: pointer;
+      font-weight: 400;
+    }
+  }
+
+  .dates-preview {
+    background: #f8f9fa;
+    border-radius: 6px;
+    padding: 0.75rem;
+
+    .date-item {
+      padding: 0.25rem 0;
+      color: #495057;
+    }
+
+    .more-dates {
+      color: #6c757d;
+      font-size: 0.875rem;
+      font-style: italic;
+    }
+  }
 }
 
 .time-pick {
   display: flex;
   flex-direction: column;
+}
+
+.event-date {
+  width: 800px;
 }
 
 .event-styles {
@@ -86,5 +251,56 @@
 .preview {
   h2 {
     color: #d6d3f0;
+  }
+}
+
+.create-container {
+  margin: 0 auto;
+  background-color: #0b3142;
+}
+
+.time-picker {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.5rem;
+
+  .time-input {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    label {
+      font-size: 0.875rem;
+      color: #6c757d;
+    }
+
+    .time-select {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 0.875rem;
+      background-color: white;
+      cursor: pointer;
+
+      &:focus {
+        outline: none;
+        border-color: #007bff;
+        box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+      }
+    }
+  }
+}
+
+@media (max-width: 1024px) {
+  .container {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .right-panel {
+    width: 100%;
+    min-width: 0;
   }
 }

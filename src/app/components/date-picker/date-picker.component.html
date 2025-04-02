@@ -1,51 +1,106 @@
 <div class="container">
-  <div class="cal-head-control">
-    <div
-      style="color: #4d4d4d; margin-left: 2rem"
-      id="arrow"
-      (click)="adjustCalender('back')"
-    >
-      <
+  <!-- Date Range Selector (for Broad mode) -->
+  <div
+    class="date-range-selector"
+    *ngIf="getCurrentSelectionMode() === 'broad'"
+  >
+    <div class="date-input">
+      <label>Start Date:</label>
+      <input
+        type="date"
+        [value]="startDate ? startDate.toISOString().split('T')[0] : ''"
+        (change)="handleStartDateChange($event)"
+      />
     </div>
-    <div>
-      <span id="month">{{ getMonth() }}</span>
-      <span id="year">{{ getYear() }}</span>
+    <div class="date-input">
+      <label>End Date:</label>
+      <input
+        type="date"
+        [value]="endDate ? endDate.toISOString().split('T')[0] : ''"
+        (change)="handleEndDateChange($event)"
+      />
+    </div>
+  </div>
+
+  <!-- Calendar only shown in specific date mode -->
+  <div *ngIf="getCurrentSelectionMode() === 'specific'">
+    <!-- Calendar Header -->
+    <div class="cal-head-control">
+      <div
+        style="color: #4d4d4d; margin-left: 2rem"
+        id="arrow"
+        (click)="adjustCalender('back')"
+      >
+        <
+      </div>
+      <div>
+        <span id="month">{{ getMonth() }}</span>
+        <span id="year">{{ getYear() }}</span>
+      </div>
+
+      <div
+        style="color: #4d4d4d; margin-right: 2rem"
+        id="arrow"
+        (click)="adjustCalender('forward')"
+      >
+        >
+      </div>
     </div>
 
-    <div
-      style="color: #4d4d4d; margin-right: 2rem"
-      id="arrow"
-      (click)="adjustCalender('forward')"
-    >
-      >
-    </div>
-  </div>
-  <div class="weekdays">
-    @for (day of weekDays; track $index) {
-    <div
-      class="weekday"
-      [ngClass]="{ selectable: eventStyle() == 'broad' }"
-      (click)="selectBroad(day)"
-    >
-      {{ day }}
-    </div>
-    }
-  </div>
-  <div class="divider"></div>
-  <div class="calender-grid">
-    <div *ngFor="let day of selectedMonthDays">
-      @if (day > 0 ) {
+    <!-- Weekdays Header -->
+    <div class="weekdays">
       <div
-        class="day"
-        [ngClass]="{
-          selectable: eventStyle() == 'specific',
-          selected: isSelected(day)
-        }"
-        (click)="selectDay(day)"
+        *ngFor="let day of weekDays; let i = index"
+        class="weekday"
+        [class.selected]="isWeekdaySelected(day)"
+        (click)="selectWeekday(day)"
       >
         {{ day }}
       </div>
-      }
+    </div>
+    <div class="divider"></div>
+
+    <!-- Calendar Grid -->
+    <div class="calender-grid">
+      <div *ngFor="let day of selectedMonthDays">
+        <div
+          *ngIf="day > 0"
+          class="day"
+          [class.selected]="isSelected(day)"
+          [class.disabled]="isPastDate(day)"
+          (click)="selectDay(day)"
+          (mousedown)="onMouseDown(day)"
+          (mouseover)="onMouseOver(day)"
+          (mouseup)="onMouseUp()"
+        >
+          {{ day }}
+        </div>
+        <div *ngIf="day <= 0" class="day prev-month disabled">
+          {{ day < 0 ? 31 + day : day }}
+        </div>
+      </div>
     </div>
   </div>
+
+  <!-- Selected Dates Summary -->
+  <!-- <div class="selected-dates-summary" *ngIf="selectedDates.length > 0">
+    <h4>Selected Dates: {{ selectedDates.length }}</h4>
+    <div class="dates-list">
+      <span
+        *ngFor="let date of selectedDates.slice(0, 5)"
+        class="date-chip"
+        (click)="removeDate(date)"
+      >
+        {{ date.toLocaleDateString() }}
+        <i class="remove-icon">×</i>
+      </span>
+      <span *ngIf="selectedDates.length > 5" class="more-dates">
+        ...and {{ selectedDates.length - 5 }} more
+      </span>
+    </div>
+  </div> -->
+</div>
+
+<div class="calendar-container" (mouseup)="onMouseUp()">
+  <!-- Existing calendar markup -->
 </div>

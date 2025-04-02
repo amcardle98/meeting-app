@@ -6,10 +6,10 @@ import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
-    selector: 'app-create',
-    templateUrl: './create.component.html',
-    styleUrls: ['./create.component.scss'],
-    standalone: false
+  selector: 'app-create',
+  templateUrl: './create.component.html',
+  styleUrls: ['./create.component.scss'],
+  standalone: false,
 })
 export class CreateComponent {
   public eventInfo = new FormGroup({
@@ -19,8 +19,8 @@ export class CreateComponent {
     ]),
     eventCreator: new FormControl('', Validators.required),
     eventStyle: new FormControl('specific'),
-    startTime: new FormControl(new Date(), [Validators.required]),
-    endTime: new FormControl(new Date(), Validators.required),
+    startTime: new FormControl<string>('09:00'),
+    endTime: new FormControl<string>('17:00'),
   });
 
   loaded = false;
@@ -29,6 +29,10 @@ export class CreateComponent {
   times: Date[] = [];
   filteredTimes: Date[] = [];
   errors: string[] = [];
+  selectionType: string = 'specific';
+  requireTimeRange: boolean = true;
+  currentSelectionMode: string = 'specific';
+  currentTimeRangeMode: boolean = false;
 
   constructor(
     private readonly codeService: CodeService,
@@ -37,7 +41,6 @@ export class CreateComponent {
   ) {}
 
   ngOnInit(): void {
-    //wait 2 seconds
     setTimeout(() => {
       this.loaded = true;
     }, 200);
@@ -60,10 +63,18 @@ export class CreateComponent {
   }
 
   timeControl() {
-    this.filteredTimes = this.times.filter(
-      (time) => time > this.eventInfo.value.startTime!
-    );
-    this.eventInfo.value.endTime = this.filteredTimes[0];
+    const startTimeValue = this.eventInfo.get('startTime')?.value;
+    if (startTimeValue) {
+      this.filteredTimes = this.times.filter(
+        (time) => time.toTimeString() > new Date(startTimeValue).toTimeString()
+      );
+      // Set default end time to first available time after start
+      if (this.filteredTimes.length > 0) {
+        this.eventInfo.patchValue({
+          endTime: this.filteredTimes[0].toISOString(),
+        });
+      }
+    }
   }
 
   isEventValid(): void {
@@ -71,7 +82,6 @@ export class CreateComponent {
       alert('Please fill out all fields');
     } else {
       this.createLobby(this.eventInfo.value.eventStyle!, this.selectedDates);
-      // console.log(this.startTime + ' ' + this.endTime);
     }
   }
 
@@ -94,5 +104,59 @@ export class CreateComponent {
 
     this.router.navigate(['event', eventCode]);
     // this.meetService.joinEvent(this.meetService.generateLobbyId());
+  }
+
+  onSelectionTypeChanged(type: string): void {
+    this.selectionType = type;
+    this.eventInfo.patchValue({ eventStyle: type });
+  }
+
+  onTimeRangeRequiredChanged(required: boolean): void {
+    this.requireTimeRange = required;
+
+    // If time range is not required, hide/disable time inputs
+    if (!required) {
+      // Reset time values when switching to "Anytime"
+      this.eventInfo.patchValue({
+        startTime: '',
+        endTime: '',
+      });
+    } else {
+      // Set default times when switching to "With Time Range"
+      this.eventInfo.patchValue({
+        startTime: '09:00',
+        endTime: '17:00',
+      });
+    }
+  }
+
+  onSelectionModeChange(mode: string): void {
+    this.currentSelectionMode = mode;
+    this.eventInfo.patchValue({ eventStyle: mode });
+  }
+
+  onTimeRangeModeChange(required: boolean): void {
+    this.currentTimeRangeMode = required;
+    if (!required) {
+      // Reset time values when switching to "Anytime"
+      this.eventInfo.patchValue({
+        startTime: '',
+        endTime: '',
+      });
+    } else {
+      // Set default times when switching to "With Time Range"
+      this.eventInfo.patchValue({
+        startTime: '09:00',
+        endTime: '17:00',
+      });
+    }
+  }
+
+  clearDates(): void {
+    this.selectedDates = [];
+    this.eventInfo.patchValue({
+      startTime: '',
+      endTime: '',
+    });
   }
 }
