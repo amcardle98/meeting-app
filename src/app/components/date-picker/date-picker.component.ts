@@ -7,8 +7,9 @@ import {
   Output,
   signal,
   WritableSignal,
+  inject,
 } from '@angular/core';
-import { Event } from 'src/app/services/event.service';
+import { EventService } from 'src/app/services/event.service';
 
 const WEEKDAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
@@ -19,6 +20,8 @@ const WEEKDAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   standalone: false,
 })
 export class DatePickerComponent implements OnInit {
+  private readonly eventService = inject(EventService);
+
   @Output() datesSelected = new EventEmitter<Date[]>();
   @Output() selectionModeChanged = new EventEmitter<string>();
   @Output() timeRangeModeChanged = new EventEmitter<boolean>();
